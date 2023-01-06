@@ -1,7 +1,23 @@
 import argparse
 import sys
 sys.path.append("..")
+sys.path.append("../dflowphonon")
 
-from dflowphonon import run
-from run import main_vasp,main_abacus,main_dp
+from VASP_flow import main_vasp
+from ABACUS_flow import main_abacus
+from DP_flow import main_dp
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--vasp", help="Using vasp code to calculate force constants",
+                    action="store_true")
+parser.add_argument("--abacus", help="Using abacus code to calculate force constants",
+                    action="store_true")
+parser.add_argument("--dp", help="Using phonolammps code , dp potential to calculate force constants",
+                    action="store_true")
+args = parser.parse_args()
+if args.vasp:
+    main_vasp()
+elif args.abacus:
+    main_abacus()
+elif args.dp:
+    main_dp()
