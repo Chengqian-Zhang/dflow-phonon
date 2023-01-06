@@ -129,9 +129,6 @@ class PhononMakeVASP(OP):
                 output_task = os.path.join(work_d,'task.%06d' % ii)
                 os.makedirs(output_task,exist_ok=True)
                 os.chdir(output_task)
-                for jj in ['INCAR', 'POTCAR', 'POSCAR', 'conf.lmp', 'in.lammps','POSCAR-unitcell','SPOSCAR']:
-                    if os.path.exists(jj):
-                        os.remove(jj)
                 task_list.append(output_task)
                 os.symlink(os.path.join(work_d,poscar_list[ii]), 'POSCAR')
                 os.symlink(os.path.join(work_d,"PPOSCAR"),"POSCAR-unitcell")
@@ -152,10 +149,10 @@ class PhononMakeVASP(OP):
             shutil.copyfile("band.conf","task.000000/band.conf")
             shutil.copyfile("phonopy_disp.yaml","task.000000/phonopy_disp.yaml")
 
-        jobss = glob.glob(os.path.join(work_d,"task*"))
-        njobs = len(jobss)
+        all_jobs = glob.glob(os.path.join(work_d,"task*"))
+        njobs = len(all_jobs)
         jobs = []
-        for job in jobss:
+        for job in all_jobs:
             jobs.append(pathlib.Path(job))
         
         os.chdir(cwd)
@@ -182,7 +179,7 @@ class VASP(OP):
     @classmethod
     def get_output_sign(cls):
         return OPIOSign({
-            'output_dfpt': Artifact(Path)                                                                                                                                         
+            'output_dfpt': Artifact(Path,sub_path = False)                                                                                                                                         
         })
     
     @OP.exec_sign_check
@@ -207,26 +204,25 @@ class PhononPostVASP(OP):
     @classmethod
     def get_input_sign(cls):
         return OPIOSign({
-            'input_post': Artifact(Path)
+            'input_post': Artifact(Path,sub_path = False),
+            'path': str
         })
     
     @classmethod
     def get_output_sign(cls):
         return OPIOSign({
-            'output_post': Artifact(Path)                                                                                                                                          
+            'output_post': Artifact(Path,sub_path = False)                                                                                                                                          
         })
     
     @OP.exec_sign_check
     def execute(self, op_in: OPIO) -> OPIO:
         os.chdir(op_in["input_post"])
-        cwdd = os.getcwd()
-        try:
-            os.chdir(os.path.join(cwdd,"work_dir"))
-            shutil.copyfile("task.000000/band.conf","band.conf")
-            shutil.copyfile("task.000000/param.json","param.json")
-            shutil.copyfile("task.000000/POSCAR-unitcell","POSCAR-unitcell")
-        except:
-            pass
+        cwd = os.getcwd()
+        os.chdir(os.path.join(cwd,op_in["path"].strip("/")))
+        shutil.copyfile("task.000000/band.conf","band.conf")
+        shutil.copyfile("task.000000/param.json","param.json")
+        shutil.copyfile("task.000000/POSCAR-unitcell","POSCAR-unitcell")
+
         parameter = loadfn("param.json")["properties"]
         inter_param_prop = loadfn("param.json")["interaction"]
         parameter['primitive'] = parameter.get('primitive', False)
@@ -250,23 +246,15 @@ class PhononPostVASP(OP):
                 print('vasprun.xml No such file')
 
         elif(approach == "displacement"):
-            try:
-                os.chdir(os.path.join(cwdd,"work_dir"))
-                shutil.copyfile("task.000000/band.conf","band.conf")
-                shutil.copyfile("task.000000/phonopy_disp.yaml","phonopy_disp.yaml")
-                os.system('phonopy -f task.0*/vasprun.xml')
-            except:
-                os.system('phonopy -f vasprun.xml')
+            shutil.copyfile("task.000000/band.conf","band.conf")
+            shutil.copyfile("task.000000/phonopy_disp.yaml","phonopy_disp.yaml")
+            os.system('phonopy -f task.0*/vasprun.xml')
             if os.path.exists("FORCE_SETS"):
                 print('FORCE_SETS is created')
             else:
                 print('FORCE_SETS can not be created')
             os.system('phonopy --dim="%s %s %s" -c POSCAR-unitcell band.conf'%(supercell_matrix[0],supercell_matrix[1],supercell_matrix[2]))
             os.system('phonopy-bandplot --gnuplot band.yaml > band.dat')
-            try:
-                shutil.copyfile("band.dat","task.000000/band.dat")
-            except:
-                pass
 
         op_out = OPIO({
             "output_post": op_in["input_post"]

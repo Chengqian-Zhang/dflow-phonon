@@ -73,7 +73,8 @@ def main_vasp():
     )
 
     cwd = os.getcwd()
-    work_dir = os.path.join(cwd,work_dir)
+    #work_dir = os.path.join(cwd,work_dir)
+    work_dir = cwd
     wf = Workflow(name = "phonon")
 
     phononmake = Step(
@@ -91,6 +92,7 @@ def main_vasp():
         name="Phononpost", 
         template=PythonOPTemplate(PhononPostVASP,image=phonopy_image_name,command=["python3"]),
         artifacts={"input_post":vasp_cal.outputs.artifacts["output_dfpt"]},
+        parameters={"path":cwd}
         )
     wf.add(phononpost)
 

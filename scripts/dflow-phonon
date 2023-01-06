@@ -1,0 +1,7 @@
+import argparse
+import sys
+sys.path.append("..")
+
+from dflowphonon import run
+from run import main_vasp,main_abacus,main_dp
+
