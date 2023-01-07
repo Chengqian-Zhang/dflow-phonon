@@ -95,9 +95,6 @@ class PhononMakeDP(OP):
         output_task = os.path.join(work_d,'task.000000')
         os.makedirs(output_task,exist_ok=True)
         os.chdir(output_task)
-        for jj in ['INCAR', 'POTCAR', 'POSCAR', 'conf.lmp', 'in.lammps','POSCAR-unitcell','SPOSCAR']:
-            if os.path.exists(jj):
-                os.remove(jj)
         os.symlink(os.path.join(work_d,"POSCAR-unitcell"),"POSCAR")
         os.symlink(os.path.join(work_d,"frozen_model.pb"),"frozen_model.pb")
         with open("POSCAR",'r') as fp :
@@ -211,6 +208,7 @@ class PhononPostDP(OP):
         if os.path.isfile('FORCE_CONSTANTS'):
             os.system('phonopy --dim="%s %s %s" -c POSCAR band.conf'%(supercell_matrix[0],supercell_matrix[1],supercell_matrix[2]))
             os.system('phonopy-bandplot --gnuplot band.yaml > band.dat')
+            shutil.copyfile("band.dat","../band.dat")
         else:
             print('FORCE_CONSTANTS No such file')
 

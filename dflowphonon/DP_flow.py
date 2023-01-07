@@ -79,7 +79,7 @@ def main_dp():
     )
 
     cwd = os.getcwd()
-    work_dir = os.path.join(cwd,work_dir)
+    work_dir = cwd
     wf = Workflow(name = "phonon")
 
     phononmake = Step(

@@ -218,6 +218,7 @@ class PhononPostVASP(OP):
         approach = parameter['approach']
         
         if(approach == "linear"):
+            os.chdir(os.path.join(os.getcwd(),"task.000000"))
             if os.path.isfile('vasprun.xml'):
                 os.system('phonopy --fc vasprun.xml')
                 if os.path.isfile('FORCE_CONSTANTS'):
