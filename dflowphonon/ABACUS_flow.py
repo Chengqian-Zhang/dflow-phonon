@@ -79,7 +79,7 @@ def main_abacus():
     )
 
     cwd = os.getcwd()
-    work_dir = os.path.join(cwd,work_dir)
+    work_dir = cwd
     wf = Workflow(name = "phonon")
 
     phononmake = Step(
@@ -88,11 +88,6 @@ def main_abacus():
         artifacts={"input":upload_artifact(work_dir)},
         )
     wf.add(phononmake)
-    '''
-    abacus = PythonOPTemplate(ABACUS,slices=Slices("{{item}}", input_artifact=["input_abacus"],output_artifact=["output_abacus"]),image=abacus_image_name,command=["python3"])
-    abacus_cal = Step("ABACUS-Cal",template=abacus,artifacts={"input_abacus":phononmake.outputs.artifacts["jobs"]},with_param=argo_range(phononmake.outputs.parameters["njobs"]),key="ABACUS-Cal-{{item}}",util_image=abacus_image_name,util_command=['python3'])  
-    wf.add(abacus_cal)
-    '''
     
     abacus = PythonOPTemplate(ABACUS,slices=Slices("{{item}}", input_artifact=["input_abacus"],output_artifact=["output_abacus"]),image=abacus_image_name,command=["python3"])
     abacus_cal = Step("ABACUS-Cal",template=abacus,artifacts={"input_abacus":phononmake.outputs.artifacts["jobs"]},with_param=argo_range(phononmake.outputs.parameters["njobs"]),key="ABACUS-Cal-{{item}}",executor=dispatcher_executor_cpu)   
@@ -102,6 +97,7 @@ def main_abacus():
         name="Phononpost", 
         template=PythonOPTemplate(PhononPostABACUS,image=phonopy_image_name,command=["python3"]),
         artifacts={"input_post_abacus":abacus_cal.outputs.artifacts["output_abacus"]},
+        parameters={"path":cwd}
         )
     wf.add(phononpost)
     
@@ -110,9 +106,5 @@ def main_abacus():
     while wf.query_status() in ["Pending","Running"]:
         time.sleep(4)
     assert(wf.query_status() == 'Succeeded')
-    '''
-    step2 = wf.query_step(name="ABACUS-Cal")[0]
-    download_artifact(step2.outputs.artifacts["output_abacus"])
-    '''
     step2 = wf.query_step(name="Phononpost")[0]
     download_artifact(step2.outputs.artifacts["output_post_abacus"])

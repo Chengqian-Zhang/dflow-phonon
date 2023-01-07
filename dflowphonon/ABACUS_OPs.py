@@ -178,7 +178,7 @@ class ABACUS(OP):
     @classmethod
     def get_output_sign(cls):
         return OPIOSign({
-            'output_abacus': Artifact(Path)                                                                                                                                         
+            'output_abacus': Artifact(Path,sub_path=False)                                                                                                                                         
         })
     
     @OP.exec_sign_check
@@ -203,44 +203,34 @@ class PhononPostABACUS(OP):
     @classmethod
     def get_input_sign(cls):
         return OPIOSign({
-            'input_post_abacus': Artifact(Path)
+            'input_post_abacus': Artifact(Path,sub_path=False),
+            'path': str
         })
     
     @classmethod
     def get_output_sign(cls):
         return OPIOSign({
-            'output_post_abacus': Artifact(Path)                                                                                                                                          
+            'output_post_abacus': Artifact(Path,sub_path=False)                                                                                                                                          
         })
     
     @OP.exec_sign_check
     def execute(self, op_in: OPIO) -> OPIO:
         os.chdir(op_in["input_post_abacus"])
-        cwdd = os.getcwd()
-        try:
-            os.chdir(os.path.join(cwdd,"work_dir"))
-            shutil.copyfile("task.000000/band.conf","band.conf")
-            shutil.copyfile("task.000000/param.json","param.json")
-            shutil.copyfile("task.000000/STRU","STRU")
-            shutil.copyfile("task.000000/phonopy_disp.yaml","phonopy_disp.yaml")
-        except:
-            pass
+        cwd = os.getcwd()
+        os.chdir(os.path.join(cwd,op_in["path"].strip("/")))
+        shutil.copyfile("task.000000/band.conf","band.conf")
+        shutil.copyfile("task.000000/param.json","param.json")
+        shutil.copyfile("task.000000/STRU.ori","STRU")
+        shutil.copyfile("task.000000/phonopy_disp.yaml","phonopy_disp.yaml")
         parameter = loadfn("param.json")["properties"]
 
-        if(os.path.exists("OUT.ABACUS")):
-            os.system('cp STRU STRU.dis && cp STRU.ori STRU')
-            os.system('phonopy -f OUT.ABACUS/running_scf.log')
-        else:
-            os.system('phonopy -f task.0*/OUT.ABACUS/running_scf.log')
+        os.system('phonopy -f task.0*/OUT.ABACUS/running_scf.log')
         if os.path.exists("FORCE_SETS"):
             print('FORCE_SETS is created')
         else:
             print('FORCE_SETS can not be created')
         os.system('phonopy band.conf --abacus')
         os.system('phonopy-bandplot --gnuplot band.yaml > band.dat')
-        try:
-            shutil.copyfile("band.dat","task.000000/band.dat")
-        except:
-            pass
 
         op_out = OPIO({
             "output_post_abacus": op_in["input_post_abacus"]
