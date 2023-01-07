@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="dflow-phonon",
-    version="0.0.11",
+    version="0.0.12",
     author="Chengqian Zhang",
     author_email="2043899742@qq.com",
     description="A phonon calculation package based on dflow",
