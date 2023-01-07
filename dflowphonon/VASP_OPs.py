@@ -73,14 +73,16 @@ class PhononMakeVASP(OP):
         MESH = parameter.get('MESH',None)
         PRIMITIVE_AXES = parameter.get('PRIMITIVE_AXES',None)
         BAND_POINTS = parameter.get('BAND_POINTS',None)
-        BAND_CONNECTION = parameter.get('BAND_CONNECTION',True
+        BAND_CONNECTION = parameter.get('BAND_CONNECTION',True)
 
         if primitive:
             subprocess.call('phonopy --symmetry',shell=True)
             subprocess.call('cp PPOSCAR POSCAR',shell=True)
             shutil.copyfile("PPOSCAR","POSCAR-unitcell")
         else:
+            print("pre")
             shutil.copyfile("POSCAR","POSCAR-unitcell")
+            print("after")
         
         with open("POSCAR","r") as fp:
             lines = fp.read().split('\n')
@@ -131,7 +133,7 @@ class PhononMakeVASP(OP):
                 os.chdir(output_task)
                 task_list.append(output_task)
                 os.symlink(os.path.join(work_d,poscar_list[ii]), 'POSCAR')
-                os.symlink(os.path.join(work_d,"PPOSCAR"),"POSCAR-unitcell")
+                os.symlink(os.path.join(work_d,"POSCAR"),"POSCAR-unitcell")
                 os.symlink(os.path.join(work_d,"INCAR"),"INCAR")
                 os.symlink(os.path.join(work_d,"POTCAR"),"POTCAR")
                 os.symlink(os.path.join(work_d,"param.json"),"param.json")
