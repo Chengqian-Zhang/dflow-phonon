@@ -70,6 +70,10 @@ class PhononMakeVASP(OP):
         supercell_matrix = parameter['supercell_matrix']
         primitive = parameter['primitive']
         approach = parameter['approach']
+        MESH = parameter.get('MESH',None)
+        PRIMITIVE_AXES = parameter.get('PRIMITIVE_AXES',None)
+        BAND_POINTS = parameter.get('BAND_POINTS',None)
+        BAND_CONNECTION = parameter.get('BAND_CONNECTION',True
 
         if primitive:
             subprocess.call('phonopy --symmetry',shell=True)
@@ -97,15 +101,26 @@ class PhononMakeVASP(OP):
             os.symlink(os.path.join(work_d,"INCAR"),"INCAR")
             os.symlink(os.path.join(work_d,"POTCAR"),"POTCAR")
             os.symlink(os.path.join(work_d,"param.json"),"param.json")
-            with open('band.conf','w') as fp:
-                fp.write('ATOM_NAME = ')
-                for ii in ele_list:
-                    fp.write(ii)
-                    fp.write(' ')
-                fp.write('\n')
-                fp.write('DIM = %s %s %s\n'%(supercell_matrix[0],supercell_matrix[1],supercell_matrix[2]))
-                fp.write('BAND = %s\n'%band_path)
-                fp.write('FORCE_CONSTANTS=READ\n')
+
+            ## band.conf
+            ret = ""
+            ret += "ATOM_NAME ="
+            for ii in ele_list:
+                ret += " %s"%(ii)
+            ret += "\n"
+            ret += "DIM = %s %s %s\n"%(supercell_matrix[0],supercell_matrix[1],supercell_matrix[2])
+            if MESH:
+                ret += "MESH = %s %s %s\n"%(MESH[0],MESH[1],MESH[2])
+            if PRIMITIVE_AXES:
+                ret += "PRIMITIVE_AXES = %s\n"%(PRIMITIVE_AXES)
+            ret += "BAND = %s\n"%(band_path)
+            if BAND_POINTS:
+                ret += "BAND_POINTS = %s\n"%(BAND_POINTS)
+            if BAND_CONNECTION:
+                ret += "BAND_CONNECTION = %s\n"%(BAND_CONNECTION)
+            ret += "FORCE_CONSTANTS=READ\n"
+            with open("band.conf","a") as fp:
+                fp.write(ret)
         
         elif(approach == "displacement"):
             poscar_list = glob.glob("POSCAR-0*")
@@ -122,14 +137,24 @@ class PhononMakeVASP(OP):
                 os.symlink(os.path.join(work_d,"param.json"),"param.json")
 
             os.chdir("../")
-            with open('band.conf','w') as fp:
-                fp.write('ATOM_NAME = ')
-                for ii in ele_list:
-                    fp.write(ii)
-                    fp.write(' ')
-                fp.write('\n')
-                fp.write('DIM = %s %s %s\n'%(supercell_matrix[0],supercell_matrix[1],supercell_matrix[2]))
-                fp.write('BAND = %s\n'%band_path)
+            ## band.conf
+            ret = ""
+            ret += "ATOM_NAME ="
+            for ii in ele_list:
+                ret += " %s"%(ii)
+            ret += "\n"
+            ret += "DIM = %s %s %s\n"%(supercell_matrix[0],supercell_matrix[1],supercell_matrix[2])
+            if MESH:
+                ret += "MESH = %s %s %s\n"%(MESH[0],MESH[1],MESH[2])
+            if PRIMITIVE_AXES:
+                ret += "PRIMITIVE_AXES = %s\n"%(PRIMITIVE_AXES)
+            ret += "BAND = %s\n"%(band_path)
+            if BAND_POINTS:
+                ret += "BAND_POINTS = %s\n"%(BAND_POINTS)
+            if BAND_CONNECTION:
+                ret += "BAND_CONNECTION = %s\n"%(BAND_CONNECTION)
+            with open("band.conf","a") as fp:
+                fp.write(ret)
 
             shutil.copyfile("band.conf","task.000000/band.conf")
             shutil.copyfile("phonopy_disp.yaml","task.000000/phonopy_disp.yaml")

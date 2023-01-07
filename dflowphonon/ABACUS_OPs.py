@@ -117,9 +117,7 @@ class PhononMakeABACUS(OP):
         if BAND_POINTS:
             ret += "BAND_POINTS = %s\n"%(BAND_POINTS)
         if BAND_CONNECTION:
-            ret += "BAND_CONNECTION = .TRUE.\n"
-        else :
-            ret += "BAND_CONNECTION = .FALSE.\n"
+            ret += "BAND_CONNECTION = %s\n"%(BAND_CONNECTION)
         with open("band.conf","a") as fp:
             fp.write(ret)
 
