@@ -49,6 +49,9 @@ def main_dp():
             "batch_type": "Bohrium",
             "context_type": "Bohrium",
             "remote_profile": {
+                "email": email,
+                "password": password,
+                "program_id": program_id,
                 "input_data": {
                     "job_type": "container",
                     "platform": "ali",
@@ -63,6 +66,9 @@ def main_dp():
             "batch_type": "Bohrium",
             "context_type": "Bohrium",
             "remote_profile": {
+                "email": email,
+                "password": password,
+                "program_id": program_id,
                 "input_data": {
                     "job_type": "container",
                     "platform": "ali",

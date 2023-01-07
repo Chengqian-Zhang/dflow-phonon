@@ -1,15 +1,3 @@
-from dflow import config, s3_config
-from dflow.plugins import bohrium
-from dflow.plugins.bohrium import TiefblueClient
-from monty.serialization import loadfn
-config["host"] = "https://workflows.deepmodeling.com"
-config["k8s_api_server"] = "https://workflows.deepmodeling.com"
-bohrium.config["username"] = loadfn("global.json").get("email",None)
-bohrium.config["password"] = loadfn("global.json").get("password",None)
-bohrium.config["program_id"] = loadfn("global.json").get("program_id",None)
-s3_config["repo_key"] = "oss-bohrium"
-s3_config["storage_client"] = TiefblueClient()
-
 from typing import List
 from dflow import (
     Workflow,
@@ -103,9 +91,6 @@ class PhononMakeVASP(OP):
             output_task = os.path.join(work_d,'task.000000')
             os.makedirs(output_task,exist_ok = True)
             os.chdir(output_task)
-            for jj in ['INCAR', 'POTCAR', 'POSCAR', 'conf.lmp', 'in.lammps','POSCAR-unitcell','SPOSCAR']:
-                if os.path.exists(jj):
-                    os.remove(jj)
             task_list.append(output_task)
             os.symlink(os.path.join(work_d,"SPOSCAR"),"POSCAR")
             os.symlink(os.path.join(work_d,"POSCAR-unitcell"),"POSCAR-unitcell")

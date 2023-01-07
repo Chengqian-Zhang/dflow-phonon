@@ -1,15 +1,3 @@
-from dflow import config, s3_config
-from dflow.plugins import bohrium
-from dflow.plugins.bohrium import TiefblueClient
-from monty.serialization import loadfn
-config["host"] = "https://workflows.deepmodeling.com"
-config["k8s_api_server"] = "https://workflows.deepmodeling.com"
-bohrium.config["username"] = loadfn("global.json").get("email",None)
-bohrium.config["password"] = loadfn("global.json").get("password",None)
-bohrium.config["program_id"] = loadfn("global.json").get("program_id",None)
-s3_config["repo_key"] = "oss-bohrium"
-s3_config["storage_client"] = TiefblueClient()
-
 import json,pathlib
 from typing import List
 from dflow import (
