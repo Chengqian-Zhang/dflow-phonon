@@ -29,7 +29,7 @@ from monty.serialization import loadfn
 from monty.serialization import loadfn
 from dflow.python import upload_packages
 upload_packages.append(__file__)
-from VASP_OPs import PhononMakeVASP,VASP,PhononPostVASP
+from dflowphonon.VASP_OPs import PhononMakeVASP,VASP,PhononPostVASP
 
 def main_vasp():
     global_param = loadfn("global.json")

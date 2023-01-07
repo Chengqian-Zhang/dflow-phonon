@@ -29,7 +29,7 @@ from monty.serialization import loadfn
 from monty.serialization import loadfn
 from dflow.python import upload_packages
 upload_packages.append(__file__)
-from ABACUS_OPs import PhononMakeABACUS,ABACUS,PhononPostABACUS
+from dflowphonon.ABACUS_OPs import PhononMakeABACUS,ABACUS,PhononPostABACUS
 
 def main_abacus():
     global_param = loadfn("global.json")

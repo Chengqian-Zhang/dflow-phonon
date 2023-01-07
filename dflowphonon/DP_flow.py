@@ -29,7 +29,7 @@ from monty.serialization import loadfn
 from monty.serialization import loadfn
 from dflow.python import upload_packages
 upload_packages.append(__file__)
-from DP_OPs import element_list,PhononMakeDP,DP,PhononPostDP
+from dflowphonon.DP_OPs import element_list,PhononMakeDP,DP,PhononPostDP
 
 def main_dp():
     global_param = loadfn("global.json")
