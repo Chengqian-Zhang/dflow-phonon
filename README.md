@@ -9,4 +9,4 @@ pip install --index-url https://pypi.org/simple/ --no-deps dflow-phonon
 如果使用DP势函数： dflowphonon --dp
 如果调用ABACUS：dflowphonon --abacus
 
-然后在https://workflows.deepmodeling.com监控任务进程
+然后在https://workflows.deepmodeling.com 监控任务进程
