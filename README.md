@@ -1,7 +1,7 @@
 # dflow-phonon
 使用方法：
 
-pip install --index-url https://pypi.org/simple/ --no-deps dflow-phonon
+pip install --index-url https://pypi.org/simple/ dflow-phonon
 
 之后进入一个example文件夹，填写global.json
 
