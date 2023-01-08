@@ -16,6 +16,7 @@ setuptools.setup(
     install_requires=[
         "pydflow>=1.6.27",
         "lbg>=1.2.13",
+        "dpdata>=0.2.13",
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
