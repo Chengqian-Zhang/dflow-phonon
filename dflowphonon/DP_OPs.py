@@ -104,6 +104,7 @@ class PhononMakeDP(OP):
         with open("POSCAR",'r') as fp :
             lines = fp.read().split('\n')
             ele_list = lines[5].split()
+
         ## band.conf
         ret = ""
         ret += "ATOM_NAME ="
@@ -143,14 +144,8 @@ class PhononMakeDP(OP):
             f.write(ret)
         
         #conf.lmp
-        ls = dpdata.System("POSCAR")
+        ls = dpdata.System("POSCAR",type_map=type_map_list)
         ls.to(fmt="lmp",file_name="conf.lmp") 
-        with open("conf.lmp","r") as f:
-            lines = f.readlines()
-            for line in lines:
-                if("types" in line):
-                    wrong = int(line.split()[0])
-        os.system("sed -i s/'%d atom types'/'%d atom types'/g conf.lmp"%(wrong,ntypes))
 
         op_out = OPIO({
             "output" : op_in["input"],
