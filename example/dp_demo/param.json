@@ -7,7 +7,8 @@
     "properties": {
          "type":         "phonon",
 	 "band_path": "0.5000 0.5000 0.5000  0.0000 0.0000 0.0000  0.5000 0.0000 0.5000  0.5000 0.2500 0.7500",
-	 "supercell_matrix":[2,2,2]
+	 "supercell_matrix":[2,2,2],
+	 "PRIMITIVE_AXES": "0 1/2 1/2  1/2 0 1/2  1/2 1/2 0"
     }
 }
 
