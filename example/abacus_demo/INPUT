@@ -6,7 +6,7 @@ ntype                   1
 symmetry                1
 
 #Parameters (2.Iteration)
-ecutwfc                 80
+ecutwfc                 100
 scf_thr                 1e-8
 scf_nmax                100
 cal_force               1
