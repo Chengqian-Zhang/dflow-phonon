@@ -8,17 +8,17 @@ This workflow supports phonon calculations based on both DFT and DP potential.Mo
 pip install --index-url https://pypi.org/simple/ dflow-phonon
 ```
 ## Quick Start
-You can go to the `example` folder.You can see that there are some examples for reference.You can go to one of them and fill in the `global.json` file.Then you can submit the workflow.
+You can go to the `example` folder . You can see that there are some examples for reference . You can go to one of them and fill in the `global.json` file . Then you can submit the workflow.
 
-If you want to use VASP code to do the DFT calculation,like the folder `vasp_dfpt_demo` and `vasp_displacement_demo`：
+If you want to use VASP code to do the DFT calculation , like the folder `vasp_dfpt_demo` and `vasp_displacement_demo` . You need to prepare `INCAR` , `POSCAR` , `POTCAR` , `global.json` and `param.json` , then ：
 ``` 
 dflowphonon --vasp
 ```
-If you want to use ABACUS code,like the folder `abacus_demo`：
+If you want to use ABACUS code,like the folder `abacus_demo`.You need to prepare `INPUT` , `STRU` , `*.UPF` , `global.json` and `param.json` ( notice that `*.orb` and `KPT` is optional ) , then ：
 ```
 dflowphonon --abacus
 ```
-If you want to use DP potential,like the folder `dp_demo`:
+If you want to use DP potential,like the folder `dp_demo` , you need to prepare `POSCAR` , `frozen_model.pb` , `global.json` and `param.json` , then :
 ```
 dflowphonon --dp
 ```
