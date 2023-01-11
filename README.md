@@ -26,15 +26,21 @@ dflowphonon --dp
 Then you can monitor the workflow process on the [website](https://workflows.deepmodeling.com).
 
 ## Details of Workflow
-If you want to use VASP code.You can choose from two calculation methods.One is `linear response method` and anothers is `finite displacement method`.
+If you want to use VASP code,you can choose from two calculation methods.One is `linear response method` and anothers is `finite displacement method`.
 
 One advantage of the `linear response method` over the `finite displacement method` is that one does not need to create super-cells, which can be in some cases computationally more efficient. Moreover, in systems where the phonon dispersions behave in an anomalous way (like systems with Kohn anomalies) the linear response method is more suitable, because it is capable of calculating the exact phonons at the requested points.
 
-One advantage of the `finite displacement method` is that it is an add on that can work with any code, also non-density functional theory codes. All is needed is the ability of the external code to compute forces (codes like ABACUS and wien2k for example do not include an implementation of the linear response method, but the small displacement method implemented in phon can be used in conjunction with these codes).
+One advantage of the `finite displacement method` is that it is an add on that can work with any code, also non-density functional theory codes. All is needed is the ability of the external code to compute forces (codes like ABACUS and wien2k for example do not include an implementation of the linear response method, but the finite displacement method implemented in phon can be used in conjunction with these codes).
 
 You can read this paper<sup>[1]</sup> to get more information about these methods.
 
 Unlike VASP code, ABACUS code does not support `linear response method` for now, so the `finite displacement method` is used by default when using ABACUS code.
 
+In order to calculate phonon structure band using DP potential,I use [phonolammps](https://github.com/abelcarreras/phonolammps) code to achieve it.
+
+In order to handle force constants obtained by `finite displacement method` and `linear response method`.I use [phonopy](https://github.com/phonopy/phonopy) code which is a robust and easy-to-use open-source code for first principles phonon calculations.You can read this paper<sup>[2]</sup> for more information.
+
 ## Reference
 [1] Alfe, D. (2007). Tutorial on calculating phonons: comparing the linear response and the small displacement methods. Department of Earth Sciences and Department of Physics and Astronomy, University College, London.
+
+[2]Togo, A., & Tanaka, I. (2015). First principles phonon calculations in materials science. Scripta Materialia, 108, 1-5.
