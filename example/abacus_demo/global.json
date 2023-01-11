@@ -6,6 +6,6 @@
     "vasp_image_name":"registry.dp.tech/dptech/vasp:5.4.4-dflow",
     "abacus_image_name":"registry.dp.tech/dptech/prod-11461/abacus:phonopy",
     "phonolammps_image_name":"registry.dp.tech/dptech/prod-11461/phonopy:v1.2",
-    "cpu_scass_type":"c16_m32_cpu",
+    "cpu_scass_type":"c64_m128_cpu",
     "gpu_scass_type":"c4_m15_1 * NVIDIA T4"
 }
