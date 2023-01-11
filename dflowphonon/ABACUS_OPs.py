@@ -183,7 +183,7 @@ class ABACUS(OP):
     def execute(self, op_in: OPIO) -> OPIO:
         cwd = os.getcwd()
         os.chdir(op_in["input_abacus"])
-        cmd = "bash -c \"source /opt/intel/oneapi/setvars.sh && ulimit -s unlimited && mpirun -n 64 abacus \""
+        cmd = "bash -c \"source /opt/intel/oneapi/setvars.sh && ulimit -s unlimited && mpirun -n 32 abacus \""
         subprocess.call(cmd, shell=True)
         os.chdir(cwd)
         op_out = OPIO({
