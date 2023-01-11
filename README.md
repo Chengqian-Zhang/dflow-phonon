@@ -14,11 +14,11 @@ If you want to use VASP code to do the DFT calculation,like the folder `vasp_dfp
 ``` 
 dflowphonon --vasp
 ```
-If you want to use ABACUS code：
+If you want to use ABACUS code,like the folder `abacus_demo`：
 ```
 dflowphonon --abacus
 ```
-If you want to use DP potential:
+If you want to use DP potential,like the folder `dp_demo`:
 ```
 dflowphonon --dp
 ```
