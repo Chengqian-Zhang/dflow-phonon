@@ -27,3 +27,12 @@ Then you can monitor the workflow process on the [website](https://workflows.dee
 
 ## Details of Workflow
 If you want to use VASP code.You can choose from two calculation methods.One is `linear response method` and anothers is `finite displacement method`.
+
+One advantage of the `linear response method` over the `finite displacement method` is that one does not need to create super-cells, which can be in some cases computationally more efficient. Moreover, in systems where the phonon dispersions behave in an anomalous way (like systems with Kohn anomalies) the linear response method is more suitable, because it is capable of calculating the exact phonons at the requested points.
+
+One advantage of the `finite displacement method` is that it is an add on that can work with any code, also non-density functional theory codes. All is needed is the ability of the external code to compute forces (codes like abacus and wien2k for example do not include an implementation of the linear response method, but the small displacement method implemented in phon can be used in conjunction with these codes).
+
+You can read this paper<sup>[1]</sup> to get more information about these methods.
+
+## Reference
+[1] Alfe, D. (2007). Tutorial on calculating phonons: comparing the linear response and the small displacement methods. Department of Earth Sciences and Department of Physics and Astronomy, University College, London.
