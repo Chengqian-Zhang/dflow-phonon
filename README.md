@@ -25,6 +25,12 @@ dflowphonon --dp
 
 Then you can monitor the workflow process on the [website](https://workflows.deepmodeling.com).
 
+If you want to watch the phonon band structure , you can go to the folder where `band.dat` exists , then
+```
+dflowphonon-plot
+```
+The file named `phonon_band_structure` is the result picture.
+
 ## Details of Workflow
 If you want to use VASP code,you can choose from two calculation methods.One is `linear response method` and anothers is `finite displacement method`.
 
