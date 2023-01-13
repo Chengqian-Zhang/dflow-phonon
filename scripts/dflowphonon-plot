@@ -1,0 +1,8 @@
+#!/opt/mamba/bin/python3.10
+
+import sys
+sys.path.append("..")
+sys.path.append("../dflowphonon")
+from dflowphonon.lib.plot import plot_band_structure
+
+plot_band_structure()
