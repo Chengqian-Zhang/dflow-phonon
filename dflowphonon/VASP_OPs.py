@@ -186,6 +186,7 @@ class VASP(OP):
     def get_input_sign(cls):
         return OPIOSign({
             'input_dfpt': Artifact(Path),
+            'run_command': str
         })
     
     @classmethod
@@ -198,7 +199,7 @@ class VASP(OP):
     def execute(self, op_in: OPIO) -> OPIO:
         cwd = os.getcwd()
         os.chdir(op_in["input_dfpt"])
-        cmd = "bash -c \"source /opt/intel/oneapi/setvars.sh && ulimit -s unlimited && mpirun -n 64 /opt/vasp.5.4.4/bin/vasp_std \""
+        cmd = op_in["run_command"]
         subprocess.call(cmd, shell=True)
         os.chdir(cwd)
         op_out = OPIO({

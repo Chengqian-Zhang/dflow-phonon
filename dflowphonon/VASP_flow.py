@@ -43,6 +43,7 @@ def main_vasp():
     phonolammps_image_name = global_param.get("phonolammps_image_name",None)
     cpu_scass_type = global_param.get("cpu_scass_type",None)
     gpu_scass_type = global_param.get("gpu_scass_type",None)
+    vasp_run_command = global_param.get("vasp_run_command",None)
 
     dispatcher_executor_cpu = DispatcherExecutor(
         machine_dict={
@@ -90,7 +91,15 @@ def main_vasp():
     wf.add(phononmake)
    
     vasp = PythonOPTemplate(VASP,slices=Slices("{{item}}", input_artifact=["input_dfpt"],output_artifact=["output_dfpt"]),image=vasp_image_name,command=["python3"])
-    vasp_cal = Step("VASP-Cal",template=vasp,artifacts={"input_dfpt":phononmake.outputs.artifacts["jobs"]},with_param=argo_range(phononmake.outputs.parameters["njobs"]),key="VASP-Cal-{{item}}",executor=dispatcher_executor_cpu)   
+    vasp_cal = Step(
+        name="VASP-Cal",
+        template=vasp,
+        artifacts={"input_dfpt":phononmake.outputs.artifacts["jobs"]},
+        parameters={"run_command":vasp_run_command},
+        with_param=argo_range(phononmake.outputs.parameters["njobs"]),
+        key="VASP-Cal-{{item}}",
+        executor=dispatcher_executor_cpu
+        )   
     wf.add(vasp_cal)
 
     phononpost = Step(
