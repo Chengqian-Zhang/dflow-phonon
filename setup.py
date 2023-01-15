@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="dflow-phonon",
-    version="0.0.19",
+    version="0.0.21",
     author="Chengqian Zhang",
     author_email="2043899742@qq.com",
     description="A phonon calculation package based on dflow",
@@ -17,6 +17,7 @@ setuptools.setup(
         "pydflow>=1.6.27",
         "lbg>=1.2.13",
         "dpdata>=0.2.13",
+        "matplotlib"
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
