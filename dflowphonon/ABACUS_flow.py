@@ -43,6 +43,7 @@ def main_abacus():
     phonolammps_image_name = global_param.get("phonolammps_image_name",None)
     cpu_scass_type = global_param.get("cpu_scass_type",None)
     gpu_scass_type = global_param.get("gpu_scass_type",None)
+    abacus_run_command = global_param.get("abacus_run_command",None)
     
     dispatcher_executor_cpu = DispatcherExecutor(
         machine_dict={
@@ -90,7 +91,15 @@ def main_abacus():
     wf.add(phononmake)
     
     abacus = PythonOPTemplate(ABACUS,slices=Slices("{{item}}", input_artifact=["input_abacus"],output_artifact=["output_abacus"]),image=abacus_image_name,command=["python3"])
-    abacus_cal = Step("ABACUS-Cal",template=abacus,artifacts={"input_abacus":phononmake.outputs.artifacts["jobs"]},with_param=argo_range(phononmake.outputs.parameters["njobs"]),key="ABACUS-Cal-{{item}}",executor=dispatcher_executor_cpu)   
+    abacus_cal = Step(
+        name="ABACUS-Cal",
+        template=abacus,
+        artifacts={"input_abacus":phononmake.outputs.artifacts["jobs"]},
+        parameters={"run_command":abacus_run_command},
+        with_param=argo_range(phononmake.outputs.parameters["njobs"]),
+        key="ABACUS-Cal-{{item}}",
+        executor=dispatcher_executor_cpu
+        )   
     wf.add(abacus_cal)
     
     phononpost = Step(

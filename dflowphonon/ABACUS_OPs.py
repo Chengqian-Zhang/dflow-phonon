@@ -171,6 +171,7 @@ class ABACUS(OP):
     def get_input_sign(cls):
         return OPIOSign({
             'input_abacus': Artifact(Path),
+            'run_command': str
         })
     
     @classmethod
@@ -183,7 +184,7 @@ class ABACUS(OP):
     def execute(self, op_in: OPIO) -> OPIO:
         cwd = os.getcwd()
         os.chdir(op_in["input_abacus"])
-        cmd = "bash -c \"source /opt/intel/oneapi/setvars.sh && ulimit -s unlimited && mpirun -n 32 abacus \""
+        cmd = op_in["run_command"]
         subprocess.call(cmd, shell=True)
         os.chdir(cwd)
         op_out = OPIO({
