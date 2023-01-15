@@ -3,6 +3,6 @@
 import sys
 sys.path.append("..")
 sys.path.append("../dflowphonon")
-from dflowphonon.lib.plot import plot_band_structure
+from dflowphonon.lib.kpath import create_band_path
 
-plot_band_structure()
+create_band_path()
