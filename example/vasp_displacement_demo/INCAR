@@ -21,7 +21,7 @@ IBRION = -1  # 2
 NSW = 0
 
 #K points and pressure
-KSPACING = 1.0
+KSPACING = 0.3
 
 #File to write
 LCHARG=F
