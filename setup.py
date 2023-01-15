@@ -18,7 +18,8 @@ setuptools.setup(
         "lbg>=1.2.13",
         "dpdata>=0.2.13",
         "matplotlib",
-        "phonopy"
+        "phonopy",
+        "seekpath"
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
