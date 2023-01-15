@@ -103,6 +103,10 @@ class PhononMakeVASP(OP):
             os.symlink(os.path.join(work_d,"INCAR"),"INCAR")
             os.symlink(os.path.join(work_d,"POTCAR"),"POTCAR")
             os.symlink(os.path.join(work_d,"param.json"),"param.json")
+            try:
+                os.symlink(os.path.join(work_d,"KPOINTS"),"KPOINTS")
+            except:
+                pass
 
             ## band.conf
             ret = ""
