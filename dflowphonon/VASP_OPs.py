@@ -80,9 +80,7 @@ class PhononMakeVASP(OP):
             subprocess.call('cp PPOSCAR POSCAR',shell=True)
             shutil.copyfile("PPOSCAR","POSCAR-unitcell")
         else:
-            print("pre")
             shutil.copyfile("POSCAR","POSCAR-unitcell")
-            print("after")
         
         with open("POSCAR","r") as fp:
             lines = fp.read().split('\n')

@@ -146,7 +146,8 @@ class PhononMakeDP(OP):
         #conf.lmp
         ls = dpdata.System("POSCAR",type_map=type_map_list)
         ls.to(fmt="lmp",file_name="conf.lmp") 
-
+        
+        os.chdir(cwd)
         op_out = OPIO({
             "output" : op_in["input"],
         })
