@@ -88,7 +88,7 @@ def main_dp():
         artifacts={"input":upload_artifact(work_dir)},
         )
     wf.add(phononmake)
-    '''
+    
     dp = PythonOPTemplate(DP,image=phonolammps_image_name,command=["python3"])
     dp_cal = Step("DP-Cal",template=dp,artifacts={"input_dp":phononmake.outputs.artifacts["output"]},executor=BohriumExecutor(executor="bohrium_v2", extra={"scassType":gpu_scass_type,"projectId": program_id,"jobType":"container", "logFiles": []}))
     wf.add(dp_cal)
@@ -96,6 +96,7 @@ def main_dp():
     dp = PythonOPTemplate(DP,image=phonolammps_image_name,command=["python3"])
     dp_cal = Step("DP-Cal",template=dp,artifacts={"input_dp":phononmake.outputs.artifacts["output"]})
     wf.add(dp_cal)
+    '''
 
     phononpost = Step(
         name="Phononpost",
